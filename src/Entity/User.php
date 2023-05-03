@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -32,7 +34,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+    #[ORM\JoinTable(name: 'OffreUser')]
+    #[ORM\JoinColumn(name: 'IdentifiantUser', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'IdentifiantOffre', referencedColumnName: 'Identifiant')]
+    #[ORM\ManyToMany(targetEntity: Offre::class, mappedBy: 'OffreUser')]
+    private Collection $offres;
 
+
+    public function __construct()
+    {
+        $this->offres = new ArrayCollection();
+    }
+
+    /**
+     * @see UserInterface
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -71,7 +87,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
-
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -114,4 +129,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Offre>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offre $offre): self
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->addOffreUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): self
+    {
+        if ($this->offres->removeElement($offre)) {
+            $offre->removeOffreUser($this);
+        }
+
+        return $this;
+    }
+
+
+
 }

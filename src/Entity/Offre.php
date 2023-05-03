@@ -59,10 +59,19 @@ class Offre
     #[ORM\ManyToMany(targetEntity: PartenaireDiffusion::class, mappedBy: 'offres')]
     private Collection $partenaireDiffusions;
 
+    #[ORM\JoinTable(name: 'OffreUser')]
+    #[ORM\JoinColumn(name: 'IdentifiantOffre', referencedColumnName: 'Identifiant')]
+    #[ORM\InverseJoinColumn(name: 'IdentifiantUser', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'offres')]
+    private Collection $OffreUser;
+
+
+
     public function __construct()
     {
         $this->civilites = new ArrayCollection();
         $this->partenaireDiffusions = new ArrayCollection();
+        $this->OffreUser = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -255,4 +264,29 @@ class Offre
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getOffreUser(): Collection
+    {
+        return $this->OffreUser;
+    }
+
+    public function addOffreUser(User $offreUser): self
+    {
+        if (!$this->OffreUser->contains($offreUser)) {
+            $this->OffreUser->add($offreUser);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreUser(User $offreUser): self
+    {
+        $this->OffreUser->removeElement($offreUser);
+
+        return $this;
+    }
+
 }

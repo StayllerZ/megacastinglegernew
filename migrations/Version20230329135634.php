@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230321130839 extends AbstractMigration
+final class Version20230329135634 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,9 +20,11 @@ final class Version20230321130839 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE [user] ADD is_verified BIT NOT NULL');
-        $this->addSql('ALTER TABLE [user] ALTER COLUMN roles VARCHAR(MAX) NOT NULL');
-        $this->addSql('EXEC sp_addextendedproperty N\'MS_Description\', N\'(DC2Type:json)\', N\'SCHEMA\', \'dbo\', N\'TABLE\', \'user\', N\'COLUMN\', roles');
+        $this->addSql('CREATE TABLE OffreUser (IdentifiantOffre INT NOT NULL, IdentifiantUser INT NOT NULL, PRIMARY KEY (IdentifiantOffre, IdentifiantUser))');
+        $this->addSql('CREATE INDEX IDX_21DFA07F4657399 ON OffreUser (IdentifiantOffre)');
+        $this->addSql('CREATE INDEX IDX_21DFA07B0C83DF6 ON OffreUser (IdentifiantUser)');
+        $this->addSql('ALTER TABLE OffreUser ADD CONSTRAINT FK_21DFA07F4657399 FOREIGN KEY (IdentifiantOffre) REFERENCES Offre (Identifiant)');
+        $this->addSql('ALTER TABLE OffreUser ADD CONSTRAINT FK_21DFA07B0C83DF6 FOREIGN KEY (IdentifiantUser) REFERENCES [user] (id)');
     }
 
     public function down(Schema $schema): void
@@ -38,8 +40,8 @@ final class Version20230321130839 extends AbstractMigration
         $this->addSql('CREATE SCHEMA db_owner');
         $this->addSql('CREATE SCHEMA db_securityadmin');
         $this->addSql('CREATE SCHEMA dbo');
-        $this->addSql('ALTER TABLE [user] DROP COLUMN is_verified');
-        $this->addSql('ALTER TABLE [user] ALTER COLUMN roles VARCHAR(MAX) NOT NULL');
-        $this->addSql('EXEC sp_dropextendedproperty N\'MS_Description\', N\'SCHEMA\', \'dbo\', N\'TABLE\', \'user\', N\'COLUMN\', roles');
+        $this->addSql('ALTER TABLE OffreUser DROP CONSTRAINT FK_21DFA07F4657399');
+        $this->addSql('ALTER TABLE OffreUser DROP CONSTRAINT FK_21DFA07B0C83DF6');
+        $this->addSql('DROP TABLE OffreUser');
     }
 }

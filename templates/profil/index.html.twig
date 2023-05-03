@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OffreController!{% endblock %}
+
+{% block body %}
+<div class="container">
+<h1 >Bienvenue  {{  app.user.email }} !</h1>
+
+
+    <table class="table table-bordered table-hover ">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Description</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Retirer sa candidature</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% for result in app.user.offres %}
+        <tr>
+
+            <td><a href="offre/{{ result.id }}">{{ result.description }}</a></td>
+            <td>{{ result.libelle }}</td>
+            <td><a href="unsubscribe/{{ result.id }}">Retirer</a></td>
+
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

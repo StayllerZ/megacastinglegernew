@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OffreController!{% endblock %}
+
+{% block body %}
+
+
+<div class=" d-flex justify-content-center  bg-white">
+    <div class="card" style="margin: 10px">
+        <div class="card-header">
+            Offre de casting
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ offre.libelle }}</h5>
+            <h6 class="card-body">Description de l'offre</h6>
+            <p class="card-text">- {{ offre.description }}</p>
+            <h6 class="card-body">Age minimum</h6>
+            <span>- {{ offre.ageMinimum }}</span>
+            <h6 class="card-body">Age maximum</h6>
+            <span>- {{ offre.ageMaximum }}</span>
+            <h6 class="card-body">localisation</h6>
+            <span>- {{ offre.localisation }}</span>
+            <h6 class="card-body">Type de contrat</h6>
+            <span>- {{ offre.typeContrat }}</span>
+            <br>
+            <a href="/subscribe/{{ offre.id }}" class="btn bg-info text-white" style="margin: 15px">Postuler</a>
+            <a href="mailto:{{offre.client.mail}}" class="btn bg-info text-white" style="margin: 15px">Contacter</a>
+        </div>
+{#        {% if  %}#}
+{#            <h1>BLABLABLA</h1>#}
+{#        {% endif %}#}
+        <div class="card-footer text-muted">
+            disponible au {{ dateCasting }}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

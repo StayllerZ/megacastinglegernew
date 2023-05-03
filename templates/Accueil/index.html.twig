@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestController!{% endblock %}
+
+{% block body %}
+<style>
+</style>
+
+
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+
+        {% for offre in offres %}
+
+            <div class="card" style="width: 25rem; padding-left: 25px; padding-right: 25px; margin: 15px">
+                <div class="card-body">
+                    <h5 class="card-title">{{ offre.libelle }}</h5>
+                    <p class="card-text">{{ offre.description }}</p>
+                    <a href="offre/{{ offre.id }}" class="btn bg-info text-white">Plus de détails <i class="bi bi-arrow-return-left"></i></a>
+                </div>
+            </div>
+
+            {#        <div>#}
+            {#            <h2>{{ offre.libelle }}</h2>#}
+            {#            <p>{{ offre.description }}</p>#}
+            {#            <p>{{ offre.libelle }}</p>#}
+            {#        </div>#}
+        {% endfor %}
+
+
+
+    </div>
+
+</div>
+
+{% endblock %}
