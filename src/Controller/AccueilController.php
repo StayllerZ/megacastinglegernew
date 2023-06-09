@@ -56,7 +56,7 @@ class AccueilController extends AbstractController
 
     }
 
-    #[Route('/unsubscribe/{id}', name: 'app_subscribe')]
+    #[Route('/unsubscribe/{id}', name: 'app_unsubscribe')]
     public function removeUser(EntityManagerInterface $entityManager, int $id): Response
     {
         $offre = $entityManager->getRepository(Offre::class)->find($id);
